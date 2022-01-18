@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const usersRoutes = require('./routes/users');
 const cardsRoutes = require('./routes/cards');
+const NotFoundError = require('./errors/not-found');
 const errorHandler = require('./middleware/error-handler');
 
 const { PORT = 3000 } = process.env;
@@ -26,6 +27,10 @@ app.use((req, res, next) => {
 app.use(usersRoutes);
 
 app.use(cardsRoutes);
+
+app.use((res, req, next) => {
+  next(new NotFoundError('Запрашиваемой страницы не существет'));
+});
 
 app.use(errorHandler);
 
