@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const AuthError = require('../errors/authError');
 const NotFoundError = require('../errors/not-found');
-// const { urlRegExp } = require('../middleware/validators')
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -22,7 +21,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
-      validator: (v) => /(https?:\/\/)(www)*[a-z0-9\S]*#?/.test(v),
+      validator: (v) => validator.isURL(v),
       message: 'Не валидная ссылка',
     },
   },

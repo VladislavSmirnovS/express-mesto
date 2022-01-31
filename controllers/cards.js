@@ -34,13 +34,15 @@ const deleteCard = (req, res, next) => {
   const { cardId } = req.params;
 
   Card
-    .findByIdAndRemove(cardId)
+    .findById(cardId)
     .orFail(new NotFoundError('Карточка с указанным id не найдена'))
     .then((card) => {
       if (String(card.owner) !== String(req.user._id)) {
         throw new NoRightsError('Недостаточно прав для удаления чужой карточки');
       }
-      card.remove();
+      return card.remove();
+    })
+    .then((card) => {
       res.status(200).send(card);
     })
     .catch((err) => {
