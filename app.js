@@ -7,15 +7,15 @@ const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
 const routes = require('./routes');
 const errorHandler = require('./middleware/error-handler');
+const { PORT, DB_ADDRESS } = require('./config');
 
-const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-mongoose.connect('mongodb://localhost:27017/mydb', {
+mongoose.connect(DB_ADDRESS, {
   useNewUrlParser: true,
 });
 
